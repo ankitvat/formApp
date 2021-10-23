@@ -50,15 +50,32 @@ export default function Form() {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const onChange = changeData => {
     // setForm({...form, [name]: value});
     let setData = {};
+    let flag = 0;
+    // if (typeof changeData === 'object') {
+    //   let new
+    // }
     changeData.forEach(item => {
       setData = {...setData, [item.name]: item.value};
-      setForm({...form, ...setData});
     });
+
+    Object.values({...setData, form}).forEach(item => {
+      if (item === '') {
+        flag = 1;
+      }
+    });
+    console.log(flag);
+
+    if (flag === 0 && Object.keys(form).length === 13) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+    setForm({...form, ...setData});
   };
 
   const onSubmit = () => {
@@ -85,12 +102,6 @@ export default function Form() {
     };
 
     console.log(Object.keys(form).length);
-
-    Object.values(form).forEach(item => {
-      if (item === '') {
-        setButtonDisabled(true);
-      }
-    });
 
     console.log('SubmitData:', JSON.stringify(submitData, null, 2));
     setButtonDisabled(false);
@@ -122,7 +133,7 @@ export default function Form() {
     });
     value = output.join('').substr(0, 14);
     setDateOfBirth(value);
-    setForm({...form, dateOfBirth: value});
+    onChange([{name: 'dateOfBirth', value: value}]);
   };
 
   return (
@@ -157,7 +168,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.firstName}
-              onChangeText={value => onChange({name: 'firstName', value})}
+              onChangeText={value => onChange([{name: 'firstName', value}])}
             />
           </View>
           <View style={[styles.box, {marginLeft: '3%'}]}>
@@ -170,7 +181,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.lastName}
-              onChangeText={value => onChange({name: 'lastName', value})}
+              onChangeText={value => onChange([{name: 'lastName', value}])}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%', width: w / 1.065}]}>
@@ -187,7 +198,7 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
-              onChangeText={value => onChange({name: 'Email', value})}
+              onChangeText={value => onChange([{name: 'Email', value}])}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%'}]}>
@@ -220,7 +231,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.phoneNumber}
-              onChangeText={value => onChange({name: 'phoneNumber', value})}
+              onChangeText={value => onChange([{name: 'phoneNumber', value}])}
             />
           </View>
         </View>
@@ -247,7 +258,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.streetAddress}
-              onChangeText={value => onChange({name: 'streetAddress', value})}
+              onChangeText={value => onChange([{name: 'streetAddress', value}])}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%'}]}>
@@ -262,7 +273,9 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.apartmentNumber}
-              onChangeText={value => onChange({name: 'apartmentNumber', value})}
+              onChangeText={value =>
+                onChange([{name: 'apartmentNumber', value}])
+              }
             />
           </View>
 
@@ -278,7 +291,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.zipCode}
-              onChangeText={value => onChange({name: 'zipCode', value})}
+              onChangeText={value => onChange([{name: 'zipCode', value}])}
             />
           </View>
           <View style={[styles.box, {width: w / 1.065, marginTop: '3%'}]}>
@@ -296,7 +309,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.state}
-              onChangeText={value => onChange({name: 'state', value})}
+              onChangeText={value => onChange([{name: 'state', value}])}
             />
           </View>
         </View>
@@ -374,7 +387,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.idNumber}
-              onChangeText={value => onChange({name: 'Idnumber', value})}
+              onChangeText={value => onChange([{name: 'Idnumber', value}])}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%', marginLeft: '3%'}]}>
@@ -387,7 +400,7 @@ export default function Form() {
               blurOnSubmit={true}
               style={styles.input}
               error={errors.idState}
-              onChangeText={value => onChange({name: 'IdState', value})}
+              onChangeText={value => onChange([{name: 'IdState', value}])}
             />
           </View>
         </View>
