@@ -5,7 +5,7 @@ import {
   Dimensions,
   Text,
   StyleSheet,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   Keyboard,
   View,
   ScrollView,
@@ -13,11 +13,39 @@ import {
 } from 'react-native';
 import CustomText from '../components/CustomText';
 import {scale} from '../utils/fonts';
+import TextButton from '../components/TextButton';
 
 const h = Dimensions.get('window').height;
 const w = Dimensions.get('window').width;
 
 export default function Form() {
+  const identificationTypes = [
+    {
+      id: 1,
+      name: 'Driver License',
+      marginTop: 0,
+      marginLeft: 0,
+    },
+    {
+      id: 2,
+      name: 'Non-Driver/State ID',
+      marginTop: 0,
+      marginLeft: '3%',
+    },
+    {
+      id: 3,
+      name: 'US Military',
+      marginTop: '3%',
+      marginLeft: 0,
+    },
+    {
+      id: 4,
+      name: 'US Passport',
+      marginTop: '3%',
+      marginLeft: '3%',
+    },
+  ];
+  const [selectedIdType, setSelectedIdType] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const checkValue = (str, max) => {
     if (str.charAt(0) !== '0' || str == '00') {
@@ -215,6 +243,84 @@ export default function Form() {
             bold
             style={{letterSpacing: -1, marginVertical: '4%'}}
           />
+          <View style={styles.identification}>
+            {identificationTypes.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    setSelectedIdType(item.name);
+                    console.log(selectedIdType);
+                  }}
+                  style={[
+                    styles.box,
+                    {
+                      justifyContent: 'flex-start',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+
+                      marginTop: item.marginTop,
+                      marginLeft: item.marginLeft,
+                      backgroundColor:
+                        selectedIdType === item.name ? '#DBFFF2' : 'white',
+
+                      borderWidth: selectedIdType === item ? 3 : 1,
+
+                      borderColor:
+                        selectedIdType === item.name ? '#2AD196' : 'lightgray',
+                    },
+                  ]}>
+                  <View
+                    style={{
+                      width: 15,
+                      height: 15,
+                      backgroundColor: '#',
+                      borderRadius: 100,
+                      position: 'absolute',
+                      top: 16,
+                      left: 10,
+                      backgroundColor: '#FCFCFC',
+                      borderWidth: 3,
+                      borderColor:
+                        selectedIdType === item.name ? '#2AD196' : 'lightgray',
+                    }}></View>
+                  <CustomText
+                    variant="small"
+                    text={item.name}
+                    style={{
+                      marginLeft: '10%',
+                      color: selectedIdType === item.name ? '#000' : '#8e8e8e',
+                    }}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+            <View style={[styles.box, {marginTop: '3%'}]}>
+              <CustomText variant="sosmall" gray text="ID Number" />
+              <TextInput
+                underlineColorAndroid="rgba(0,0,0,0)"
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="number-pad"
+                returnKeyType="done"
+                blurOnSubmit={true}
+                style={styles.input}
+              />
+            </View>
+            <View style={[styles.box, {marginTop: '3%', marginLeft: '3%'}]}>
+              <CustomText variant="sosmall" gray text="ID State" />
+              <TextInput
+                underlineColorAndroid="rgba(0,0,0,0)"
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
+                blurOnSubmit={true}
+                style={styles.input}
+              />
+            </View>
+          </View>
+          <TextButton />
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -258,6 +364,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   address: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: w,
+  },
+  identification: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: w,
