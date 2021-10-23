@@ -14,6 +14,7 @@ import {
 import CustomText from '../components/CustomText';
 import {scale} from '../utils/fonts';
 import TextButton from '../components/TextButton';
+import {validate} from 'jest-validate';
 
 const h = Dimensions.get('window').height;
 const w = Dimensions.get('window').width;
@@ -48,13 +49,52 @@ export default function Form() {
   const [selectedIdType, setSelectedIdType] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [form, setForm] = useState({});
-  const [error, setError] = useState({});
+  const [errors, setErrors] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const onChange = ({name, value}) => {
-    setForm({...form, [name]: value});
+  const onChange = changeData => {
+    // setForm({...form, [name]: value});
+    let setData = {};
+    changeData.forEach(item => {
+      setData = {...setData, [item.name]: item.value};
+      setForm({...form, ...setData});
+    });
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    let submitData = {
+      PersonalDetails: {
+        FirstName: form.firstName,
+        LastName: form.lastName,
+        Email: form.Email,
+        phoneNumber: form.phoneNumber,
+        dateOfBirth: dateOfBirth,
+      },
+      Address: {
+        StreetAddress: form.streetAddress,
+        ApartmentNumber: form.apartmentNumber,
+        ZipCode: form.zipCode,
+        State: form.state,
+      },
+      Identification: {
+        ResidentialProof: form.residentialProof,
+        ResidentialProofID: form.idnumber,
+        IdNumber: form.Idnumber,
+        IdState: form.IdState,
+      },
+    };
+
+    console.log(Object.keys(form).length);
+
+    Object.values(form).forEach(item => {
+      if (item === '') {
+        setButtonDisabled(true);
+      }
+    });
+
+    console.log('SubmitData:', JSON.stringify(submitData, null, 2));
+    setButtonDisabled(false);
+  };
   const checkValue = (str, max) => {
     if (str.charAt(0) !== '0' || str == '00') {
       var num = parseInt(str);
@@ -82,6 +122,7 @@ export default function Form() {
     });
     value = output.join('').substr(0, 14);
     setDateOfBirth(value);
+    setForm({...form, dateOfBirth: value});
   };
 
   return (
@@ -115,6 +156,8 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.firstName}
+              onChangeText={value => onChange({name: 'firstName', value})}
             />
           </View>
           <View style={[styles.box, {marginLeft: '3%'}]}>
@@ -126,6 +169,8 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.lastName}
+              onChangeText={value => onChange({name: 'lastName', value})}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%', width: w / 1.065}]}>
@@ -142,6 +187,7 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              onChangeText={value => onChange({name: 'Email', value})}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%'}]}>
@@ -153,7 +199,7 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               keyboardType="number-pad"
-              maxLength={14}
+              maxLength={10}
               returnKeyType="done"
               onChangeText={val => handleDateOfBirth(val)}
               style={styles.input}
@@ -173,6 +219,8 @@ export default function Form() {
               returnKeyType="done"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.phoneNumber}
+              onChangeText={value => onChange({name: 'phoneNumber', value})}
             />
           </View>
         </View>
@@ -198,6 +246,8 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.streetAddress}
+              onChangeText={value => onChange({name: 'streetAddress', value})}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%'}]}>
@@ -211,6 +261,8 @@ export default function Form() {
               returnKeyType="done"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.apartmentNumber}
+              onChangeText={value => onChange({name: 'apartmentNumber', value})}
             />
           </View>
 
@@ -225,6 +277,8 @@ export default function Form() {
               returnKeyType="done"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.zipCode}
+              onChangeText={value => onChange({name: 'zipCode', value})}
             />
           </View>
           <View style={[styles.box, {width: w / 1.065, marginTop: '3%'}]}>
@@ -241,6 +295,8 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.state}
+              onChangeText={value => onChange({name: 'state', value})}
             />
           </View>
         </View>
@@ -257,7 +313,11 @@ export default function Form() {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  setSelectedIdType(item.name);
+                  // setSelectedIdType(item.name);
+                  onChange([
+                    {name: 'residentialProof', value: item.name},
+                    {name: 'idnumber', value: item.id},
+                  ]);
                 }}
                 style={[
                   styles.box,
@@ -313,6 +373,8 @@ export default function Form() {
               returnKeyType="done"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.idNumber}
+              onChangeText={value => onChange({name: 'Idnumber', value})}
             />
           </View>
           <View style={[styles.box, {marginTop: '3%', marginLeft: '3%'}]}>
@@ -324,20 +386,25 @@ export default function Form() {
               autoCapitalize="none"
               blurOnSubmit={true}
               style={styles.input}
+              error={errors.idState}
+              onChangeText={value => onChange({name: 'IdState', value})}
             />
           </View>
         </View>
         <TextButton
           variant="transparent"
           textColor="white"
-          disabled={true}
+          onPress={() => {
+            onSubmit();
+          }}
+          disabled={buttonDisabled}
           style={{
             width: w / 2.5,
             marginVertical: '3%',
             paddingVertical: '2%',
             paddingBottom: '3%',
             marginLeft: '29%',
-            backgroundColor: '#2AD196',
+            backgroundColor: buttonDisabled ? 'gray' : '#2AD196',
             borderRadius: scale(10),
           }}
           text="Apply"
