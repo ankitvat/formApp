@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, TouchableOpacity, StyleSheet , Pressable} from 'react-native';
-import CustomText from '../texts/CustomText.js';
-import theme from '../../utils/theme.js';
-import {scale} from '../../utils/fonts.js';
+import {Text, TouchableOpacity, StyleSheet, Pressable} from 'react-native';
+import CustomText from './CustomText.js';
+import theme from '../utils/theme.js';
+import {scale} from '../utils/fonts.js';
 
 export default function TextButton(props) {
   const textVariants = {
@@ -34,20 +34,20 @@ export default function TextButton(props) {
       onPressIn={props.onPressIn}
       onPressOut={props.onPressOut}
       delayPressIn={0}
-      onFocus = {props.onFocus}
+      onFocus={props.onFocus}
       onPress={props.onPress}
       // key={props.key || `${Math.random()}-t`}
     >
       <CustomText
         variant={props.textVariant || textVariants[props.variant]}
-        textColor ={props.textColor}
+        textColor={props.textColor}
         primary={!props.secondary && primaryVariants.includes(props.variant)}
         gray={grayVariants.includes(props.variant)}
         secondary={props.secondary}
         white={whiteVariants.includes(props.variant)}
         bold={boldVariants.includes(props.variant)}
         noDefaultMargin={props.noDefaultMargin}
-        onPress = {props.onPress}
+        onPress={props.onPress}
         text={props.text}>
         {props.children}
       </CustomText>

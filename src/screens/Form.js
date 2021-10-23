@@ -47,6 +47,14 @@ export default function Form() {
   ];
   const [selectedIdType, setSelectedIdType] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
+  const [form, setForm] = useState({});
+  const [error, setError] = useState({});
+
+  const onChange = ({name, value}) => {
+    setForm({...form, [name]: value});
+  };
+
+  const onSubmit = () => {};
   const checkValue = (str, max) => {
     if (str.charAt(0) !== '0' || str == '00') {
       var num = parseInt(str);
@@ -78,250 +86,262 @@ export default function Form() {
 
   return (
     <KeyboardAvoidingView
+      onPress={Keyboard.dismiss}
       behavior="padding"
       keyboardVerticalOffset={Platform.select({
         ios: () => 0,
         android: () => -200,
       })()}
       style={styles.container}>
-      <ScrollView onPress={Keyboard.dismiss}>
-        <SafeAreaView style={styles.inner}>
-          <CustomText
-            variant="h3"
-            text="Customer Information"
-            style={{letterSpacing: -1}}
-          />
-          <CustomText
-            variant="text"
-            bold
-            text="Personal details"
-            style={{letterSpacing: -1, paddingVertical: '2%'}}
-          />
-          <View style={styles.personal}>
-            <View style={styles.box}>
-              <CustomText variant="sosmall" gray text="First Name" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginLeft: '3%'}]}>
-              <CustomText variant="sosmall" gray text="Last Name" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginTop: '3%', width: w / 1.065}]}>
-              <CustomText
-                variant="sosmall"
-                gray
-                text="Email"
-                style={{marginTop: '1%'}}
-              />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginTop: '3%'}]}>
-              <CustomText variant="sosmall" gray text="Date of Birth" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                keyboardType="number-pad"
-                maxLength={14}
-                returnKeyType="done"
-                onChangeText={val => handleDateOfBirth(val)}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginLeft: '3%', marginTop: '3%'}]}>
-              <CustomText variant="sosmall" gray text="Phone Number" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="number-pad"
-                maxLength={10}
-                placeholder="+91"
-                placeholderTextColor="gray"
-                returnKeyType="done"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
+      <ScrollView contentContainerStyle={styles.inner}>
+        <CustomText
+          variant="h3"
+          text="Customer Information"
+          style={{letterSpacing: -1}}
+        />
+        <CustomText
+          variant="text"
+          bold
+          text="Personal details"
+          style={{letterSpacing: -1, paddingVertical: '2%'}}
+        />
+        <View style={styles.personal}>
+          <View style={styles.box}>
+            <CustomText variant="sosmall" gray text="First Name" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
           </View>
-          <CustomText
-            variant="text"
-            bold
-            text="Address"
-            bold
-            style={{letterSpacing: -1, marginVertical: '4%'}}
-          />
-          <View style={styles.address}>
-            <View style={[styles.box, {width: w / 1.065}]}>
-              <CustomText
-                variant="sosmall"
-                gray
-                text="Street Address"
-                style={{marginTop: '1%'}}
-              />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginTop: '3%'}]}>
-              <CustomText variant="sosmall" gray text="Apartment Number" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="number-pad"
-                returnKeyType="done"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
+          <View style={[styles.box, {marginLeft: '3%'}]}>
+            <CustomText variant="sosmall" gray text="Last Name" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+          <View style={[styles.box, {marginTop: '3%', width: w / 1.065}]}>
+            <CustomText
+              variant="sosmall"
+              gray
+              text="Email"
+              style={{marginTop: '1%'}}
+            />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+          <View style={[styles.box, {marginTop: '3%'}]}>
+            <CustomText variant="sosmall" gray text="Date of Birth" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              keyboardType="number-pad"
+              maxLength={14}
+              returnKeyType="done"
+              onChangeText={val => handleDateOfBirth(val)}
+              style={styles.input}
+            />
+          </View>
+          <View style={[styles.box, {marginLeft: '3%', marginTop: '3%'}]}>
+            <CustomText variant="sosmall" gray text="Phone Number" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="number-pad"
+              maxLength={10}
+              placeholder="+91"
+              placeholderTextColor="gray"
+              returnKeyType="done"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+        </View>
+        <CustomText
+          variant="text"
+          bold
+          text="Address"
+          bold
+          style={{letterSpacing: -1, marginVertical: '4%'}}
+        />
+        <View style={styles.address}>
+          <View style={[styles.box, {width: w / 1.065}]}>
+            <CustomText
+              variant="sosmall"
+              gray
+              text="Street Address"
+              style={{marginTop: '1%'}}
+            />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+          <View style={[styles.box, {marginTop: '3%'}]}>
+            <CustomText variant="sosmall" gray text="Apartment Number" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="number-pad"
+              returnKeyType="done"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
 
-            <View style={[styles.box, {marginLeft: '3%', marginTop: '3%'}]}>
-              <CustomText variant="sosmall" gray text="ZIP Code" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="number-pad"
-                returnKeyType="done"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {width: w / 1.065, marginTop: '3%'}]}>
-              <CustomText
-                variant="sosmall"
-                gray
-                text="State"
-                style={{marginTop: '1%'}}
-              />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
+          <View style={[styles.box, {marginLeft: '3%', marginTop: '3%'}]}>
+            <CustomText variant="sosmall" gray text="ZIP Code" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="number-pad"
+              returnKeyType="done"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
           </View>
-          <CustomText
-            variant="text"
-            bold
-            text="Identification"
-            bold
-            style={{letterSpacing: -1, marginVertical: '4%'}}
-          />
-          <View style={styles.identification}>
-            {identificationTypes.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    setSelectedIdType(item.name);
-                    console.log(selectedIdType);
+          <View style={[styles.box, {width: w / 1.065, marginTop: '3%'}]}>
+            <CustomText
+              variant="sosmall"
+              gray
+              text="State"
+              style={{marginTop: '1%'}}
+            />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+        </View>
+        <CustomText
+          variant="text"
+          bold
+          text="Identification"
+          bold
+          style={{letterSpacing: -1, marginVertical: '4%'}}
+        />
+        <View style={styles.identification}>
+          {identificationTypes.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  setSelectedIdType(item.name);
+                }}
+                style={[
+                  styles.box,
+                  {
+                    justifyContent: 'flex-start',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+
+                    marginTop: item.marginTop,
+                    marginLeft: item.marginLeft,
+                    backgroundColor:
+                      selectedIdType === item.name ? '#DBFFF2' : 'white',
+
+                    borderWidth: selectedIdType === item ? 3 : 1,
+
+                    borderColor:
+                      selectedIdType === item.name ? '#2AD196' : 'lightgray',
+                  },
+                ]}>
+                <View
+                  style={{
+                    width: 15,
+                    height: 15,
+                    backgroundColor: '#',
+                    borderRadius: 100,
+                    position: 'absolute',
+                    top: 16,
+                    left: 10,
+                    backgroundColor: '#FCFCFC',
+                    borderWidth: 3,
+                    borderColor:
+                      selectedIdType === item.name ? '#2AD196' : 'lightgray',
+                  }}></View>
+                <CustomText
+                  variant="small"
+                  text={item.name}
+                  style={{
+                    marginLeft: '10%',
+                    color: selectedIdType === item.name ? '#000' : '#8e8e8e',
                   }}
-                  style={[
-                    styles.box,
-                    {
-                      justifyContent: 'flex-start',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-
-                      marginTop: item.marginTop,
-                      marginLeft: item.marginLeft,
-                      backgroundColor:
-                        selectedIdType === item.name ? '#DBFFF2' : 'white',
-
-                      borderWidth: selectedIdType === item ? 3 : 1,
-
-                      borderColor:
-                        selectedIdType === item.name ? '#2AD196' : 'lightgray',
-                    },
-                  ]}>
-                  <View
-                    style={{
-                      width: 15,
-                      height: 15,
-                      backgroundColor: '#',
-                      borderRadius: 100,
-                      position: 'absolute',
-                      top: 16,
-                      left: 10,
-                      backgroundColor: '#FCFCFC',
-                      borderWidth: 3,
-                      borderColor:
-                        selectedIdType === item.name ? '#2AD196' : 'lightgray',
-                    }}></View>
-                  <CustomText
-                    variant="small"
-                    text={item.name}
-                    style={{
-                      marginLeft: '10%',
-                      color: selectedIdType === item.name ? '#000' : '#8e8e8e',
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            })}
-            <View style={[styles.box, {marginTop: '3%'}]}>
-              <CustomText variant="sosmall" gray text="ID Number" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="number-pad"
-                returnKeyType="done"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
-            <View style={[styles.box, {marginTop: '3%', marginLeft: '3%'}]}>
-              <CustomText variant="sosmall" gray text="ID State" />
-              <TextInput
-                underlineColorAndroid="rgba(0,0,0,0)"
-                spellCheck={false}
-                autoCorrect={false}
-                autoCapitalize="none"
-                blurOnSubmit={true}
-                style={styles.input}
-              />
-            </View>
+                />
+              </TouchableOpacity>
+            );
+          })}
+          <View style={[styles.box, {marginTop: '3%'}]}>
+            <CustomText variant="sosmall" gray text="ID Number" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="number-pad"
+              returnKeyType="done"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
           </View>
-          <TextButton />
-        </SafeAreaView>
+          <View style={[styles.box, {marginTop: '3%', marginLeft: '3%'}]}>
+            <CustomText variant="sosmall" gray text="ID State" />
+            <TextInput
+              underlineColorAndroid="rgba(0,0,0,0)"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              blurOnSubmit={true}
+              style={styles.input}
+            />
+          </View>
+        </View>
+        <TextButton
+          variant="transparent"
+          textColor="white"
+          disabled={true}
+          style={{
+            width: w / 2.5,
+            marginVertical: '3%',
+            paddingVertical: '2%',
+            paddingBottom: '3%',
+            marginLeft: '29%',
+            backgroundColor: '#2AD196',
+            borderRadius: scale(10),
+          }}
+          text="Apply"
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -337,6 +357,7 @@ const styles = StyleSheet.create({
     width: w,
     justifyContent: 'flex-start',
     padding: '3%',
+    paddingTop: '-2%',
   },
   personal: {
     flexDirection: 'row',
