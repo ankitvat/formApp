@@ -313,7 +313,7 @@ export default function Form() {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  // setSelectedIdType(item.name);
+                  setSelectedIdType(item.name);
                   onChange([
                     {name: 'residentialProof', value: item.name},
                     {name: 'idnumber', value: item.id},
@@ -399,15 +399,15 @@ export default function Form() {
           }}
           disabled={buttonDisabled}
           style={{
-            width: w / 2.5,
+            width: w / 2.2,
             marginVertical: '3%',
             paddingVertical: '2%',
             paddingBottom: '3%',
-            marginLeft: '29%',
+            marginLeft: '25%',
             backgroundColor: buttonDisabled ? 'gray' : '#2AD196',
             borderRadius: scale(10),
           }}
-          text="Apply"
+          text="APPLY NOW"
         />
       </ScrollView>
     </KeyboardAvoidingView>
