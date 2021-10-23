@@ -62,10 +62,16 @@ export default function Form() {
     changeData.forEach(item => {
       setData = {...setData, [item.name]: item.value};
     });
+    let temp = {...form, ...setData};
 
-    Object.values({...setData, form}).forEach(item => {
-      if (item === '') {
+    Object.keys(temp).forEach(index => {
+      if (index === '') {
         flag = 1;
+      }
+      if (index === 'Email') {
+        if (!validate(temp[index])) {
+          flag = 1;
+        }
       }
     });
     console.log(flag);
@@ -76,6 +82,12 @@ export default function Form() {
       setButtonDisabled(true);
     }
     setForm({...form, ...setData});
+  };
+
+  const validate = email => {
+    let reg = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w\w+)+$/;
+    console.log('Email: ', reg.test(email));
+    return reg.test(email);
   };
 
   const onSubmit = () => {
@@ -212,7 +224,7 @@ export default function Form() {
               keyboardType="number-pad"
               maxLength={10}
               returnKeyType="done"
-              onChangeText={val => handleDateOfBirth(val)}
+              onChangeText={value => handleDateOfBirth(value)}
               style={styles.input}
             />
           </View>
