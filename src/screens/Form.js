@@ -19,7 +19,7 @@ import {validate} from 'jest-validate';
 const h = Dimensions.get('window').height;
 const w = Dimensions.get('window').width;
 
-export default function Form() {
+export default function Form({navigation: {navigate}}) {
   const identificationTypes = [
     {
       id: 1,
@@ -113,10 +113,9 @@ export default function Form() {
       },
     };
 
-    console.log(Object.keys(form).length);
-
     console.log('SubmitData:', JSON.stringify(submitData, null, 2));
     setButtonDisabled(false);
+    navigate('Success');
   };
   const checkValue = (str, max) => {
     if (str.charAt(0) !== '0' || str == '00') {
